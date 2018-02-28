@@ -114,7 +114,7 @@ class Main is Game, CollisionListener3D
         camera:SetPosition(cylinder:GetPosition():GetX(), cylinder:GetPosition():GetY() + 1, cylinder:GetPosition():GetZ() - 2)
         //camera:SetPosition(cylinder:GetPosition())
         if monitor:IsKeyPressed(key:RIGHT)
-           cylinder:Move(3,0,0)
+           cylinder:Move(10,0,0)
            output "cr"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
            Vector3 bab
            bab = camera:GetPosition()
@@ -123,7 +123,7 @@ class Main is Game, CollisionListener3D
         end
 
         if monitor:IsKeyPressed(key:LEFT)
-           cylinder:Move(-1,0,0)
+           cylinder:Move(-10,0,0)
            output "cl"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
            Vector3 bab
            bab = camera:GetPosition()
@@ -132,7 +132,7 @@ class Main is Game, CollisionListener3D
         end
 
         if monitor:IsKeyPressed(key:UP)
-           cylinder:Move(0,0,1)
+           cylinder:Move(0,0,10)
            output "cu"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
            Vector3 bab
            bab = camera:GetPosition()
@@ -141,7 +141,7 @@ class Main is Game, CollisionListener3D
         end
 
         if monitor:IsKeyPressed(key:DOWN)
-            cylinder:Move(0,0,-1)
+            cylinder:Move(0,0,-10)
             camera:SetPosition(cylinder:GetPosition())
             output "cd"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
             Vector3 bab
