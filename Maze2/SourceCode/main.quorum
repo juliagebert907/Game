@@ -1,0 +1,155 @@
+use Libraries.Game.InputMonitor
+use Libraries.Game.Game
+use Libraries.Game.Graphics.Model
+use Libraries.Game.Graphics.Color
+use Libraries.Game.Graphics.Camera
+use Libraries.Game.Graphics.AmbientLight
+use Libraries.Game.Graphics.DirectionalLight
+use Libraries.Sound.Audio
+use Libraries.Interface.Events.KeyboardEvent
+use Libraries.Interface.Events.KeyboardListener
+use Libraries.Compute.Vector3
+use Libraries.Interface.Events.CollisionListener2D
+use Libraries.Interface.Events.CollisionEvent
+use Libraries.Game.Graphics.Drawable
+use Libraries.Interface.Events.CollisionEvent3D
+use Libraries.Game.Collision.Shapes.CollisionShape3D
+use Libraries.Interface.Events.CollisionListener3D
+use Libraries.Interface.Item3D
+
+
+/*
+    This is a default class for creating a game in Quorum. Note that the Main 
+    action begins by calling StartGame(), which loads a window a game can 
+    be displayed in. The action CreateGame is where the game should load any 
+    assets, like images to be displayed, frames of animation, or sounds to be
+    played. 
+*/
+class Main is Game, CollisionListener3D
+    /*
+        This action, Main, starts our computer program. In Quorum, programs always
+        begin from Main.
+    */
+    
+    InputMonitor monitor
+    KeyboardEvent key 
+    Model cylinder
+    Color clear
+    Model wall
+    Model wall2
+    Model wall3
+    Model wall4
+    Model wall5
+    Model wall6
+    Model wall7
+    Model wall8
+    Model wall9
+    Model wall10
+    Camera camera = undefined
+
+    action Main
+        StartGame()
+    end
+
+    /*
+        This action sets up the default values for a game. For example, we might
+        use the Libraries.Game.Graphics.Drawable class to load up an image or 
+        a shape. Or, we might add a Libraries.Interface.Button for making something clickable
+        or a Libraries.Interface.TextBox for gathering user input in a game.
+    */
+    action Maze
+        wall:LoadBox(50,150,1000,clear:Black())
+        wall:SetPosition(15,0,0)
+        wall:SetName("wall")
+        
+        wall2:LoadBox(50,150,1000,clear:Black())
+        wall2:SetPosition(-105,0,0)
+        wall2:SetName("wall")
+
+        Add(wall)
+        Add(wall2)
+        wall:EnablePhysics(true)
+        wall:SetUnmovable()
+        wall:SetRestitution(0)
+        wall2:EnablePhysics(true)
+        wall2:SetUnmovable()
+        wall2:SetRestitution(0)
+
+    end
+    action CreateGame
+        EnablePhysics3D(true)
+        camera = GetCamera3D()
+        Maze()
+        clear:CustomColor(0,0,0,0.5)
+        cylinder:LoadBox(0.2,0.2,0.2,clear:Blue())
+        cylinder:EnablePhysics(true)
+        //cylinder:SetRestitution(0)
+        cylinder:SetResponsive()
+        cylinder:SetPosition(-30,5,-4)
+        cylinder:SetName("person")
+        
+        Add(cylinder)
+        // this line places our camera up and to the right of our box 
+        camera:SetPosition(-35, 0, -4) 
+        // this line tells our camera to look at the center of the 3D scene 
+        //camera:LookAt(0, 0, 0)  
+        DirectionalLight light 
+        light:SetDirection(-1, -4, 3) 
+        light:SetColor(0.8, 0.8, 0.8, 1)
+        Add(light)
+        //these lines set the scene's ambient light 
+        AmbientLight ambient 
+        ambient:SetColor(0.4, 0.4, 0.4, 1)
+        SetAmbientLight(ambient)
+        
+    end
+
+    /*
+        The update action is called on every "frame" of animation in a game. This
+        action should be used to do operations on items. So, for example, we 
+        might use this action to change frames of animation, to rotate items, 
+        or to make creatures jump.
+    */
+    action Update(number seconds)
+        camera:SetPosition(cylinder:GetPosition():GetX(), cylinder:GetPosition():GetY() + 1, cylinder:GetPosition():GetZ() - 2)
+        //camera:SetPosition(cylinder:GetPosition())
+        if monitor:IsKeyPressed(key:RIGHT)
+           cylinder:Move(3,0,0)
+           output "cr"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
+           Vector3 bab
+           bab = camera:GetPosition()
+           output bab:GetX() + ", " + bab:GetY() + ", " + bab:GetZ()
+    //       ding:SetPosition(newx, cylinder:GetY(), cylinder:GetZ())
+        end
+
+        if monitor:IsKeyPressed(key:LEFT)
+           cylinder:Move(-1,0,0)
+           output "cl"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
+           Vector3 bab
+           bab = camera:GetPosition()
+           output bab:GetX() + ", " + bab:GetY() + ", " + bab:GetZ()
+    //       ding:SetPosition(newx, cylinder:GetY(), cylinder:GetZ())
+        end
+
+        if monitor:IsKeyPressed(key:UP)
+           cylinder:Move(0,0,1)
+           output "cu"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
+           Vector3 bab
+           bab = camera:GetPosition()
+           output bab:GetX() + ", " + bab:GetY() + ", " + bab:GetZ()
+        //       ding:SetPosition(cylinder:GetX(), cylinder:GetY(), newz)
+        end
+
+        if monitor:IsKeyPressed(key:DOWN)
+            cylinder:Move(0,0,-1)
+            camera:SetPosition(cylinder:GetPosition())
+            output "cd"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
+            Vector3 bab
+            bab = camera:GetPosition()
+            output bab:GetX() + ", " + bab:GetY() + ", " + bab:GetZ()
+        //       ding:SetPosition(cylinder:GetX(), cylinder:GetY(), newz)
+            end
+        end
+
+    
+end
