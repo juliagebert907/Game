@@ -17,35 +17,34 @@ use Libraries.Game.Collision.Shapes.CollisionShape3D
 use Libraries.Interface.Events.CollisionListener3D
 use Libraries.Interface.Item3D
 
-
 /*
-    This is a default class for creating a game in Quorum. Note that the Main 
-    action begins by calling StartGame(), which loads a window a game can 
-    be displayed in. The action CreateGame is where the game should load any 
+    This is a default class for creating a game in Quorum. Note that the Main
+    action begins by calling StartGame(), which loads a window a game can
+    be displayed in. The action CreateGame is where the game should load any
     assets, like images to be displayed, frames of animation, or sounds to be
-    played. 
+    played.
 */
 class Main is Game, CollisionListener3D
     /*
         This action, Main, starts our computer program. In Quorum, programs always
         begin from Main.
     */
-    
     InputMonitor monitor
-    KeyboardEvent key 
-    Model cylinder
+    KeyboardEvent key
+  Drawable cylinder
     Color clear
-    Model wall
-    Model wall2
-    Model wall3
-    Model wall4
-    Model wall5
-    Model wall6
-    Model wall7
-    Model wall8
-    Model wall9
-    Model wall10
-    Camera camera = undefined
+       Drawable wall
+ Drawable wall2
+    Drawable wall3
+    Drawable wall4
+    Drawable wall5
+    Drawable wall6
+    Drawable wall7
+    Drawable wall8
+    Drawable wall9
+    Drawable wall10
+
+    //Camera camera = undefined
 
     action Main
         StartGame()
@@ -53,103 +52,137 @@ class Main is Game, CollisionListener3D
 
     /*
         This action sets up the default values for a game. For example, we might
-        use the Libraries.Game.Graphics.Drawable class to load up an image or 
+        use the Libraries.Game.Graphics.Drawable class to load up an image or
         a shape. Or, we might add a Libraries.Interface.Button for making something clickable
         or a Libraries.Interface.TextBox for gathering user input in a game.
     */
     action Maze
-        wall:LoadBox(50,150,1000,clear:Black())
-        wall:SetPosition(15,0,0)
+        wall:LoadFilledRectangle(20,600,clear:Black())
+        wall:SetPosition(-5,0)
         wall:SetName("wall")
-        
-        wall2:LoadBox(50,150,1000,clear:Black())
-        wall2:SetPosition(-105,0,0)
+
+        wall2:LoadFilledRectangle(20,100,clear:Black())
+        wall2:SetPosition(45,0)
         wall2:SetName("wall")
 
-        Add(wall)
+        wall3:LoadFilledRectangle(20,200,clear:Black())
+        wall3:SetPosition(45,130)
+        wall3:SetName("wall")
+
+        wall4:LoadFilledRectangle(20,200,clear:Black())
+        wall4:SetPosition(45,360)
+        wall4:SetName("wall")
+
+    wall5:LoadFilledRectangle(200,20,clear:Black())
+        wall5:SetPosition(45,550)
+        wall5:SetName("wall")
+    
+    wall6:LoadFilledRectangle(20,200,clear:Black())
+        wall6:SetPosition(45,360)
+        wall6:SetName("wall")
+
+    wall7:LoadFilledRectangle(20,200,clear:Black())
+        wall7:SetPosition(45,360)
+        wall7:SetName("wall")
+
+    wall9:LoadFilledRectangle(20,200,clear:Black())
+        wall9:SetPosition(45,360)
+        wall9:SetName("wall")
+
+
+    wall8:LoadFilledRectangle(20,200,clear:Black())
+        wall8:SetPosition(45,360)
+        wall8:SetName("wall")
+
+    Add(wall)
         Add(wall2)
+Add(wall3)
+Add(wall4)
+Add(wall5)
+Add(wall6)
+Add(wall7)
+Add(wall8)
+wall4:EnablePhysics(true)
+wall5:EnablePhysics(true)
         wall:EnablePhysics(true)
+wall6:EnablePhysics(true)
+wall7:EnablePhysics(true)
+wall8:EnablePhysics(true)
         wall:SetUnmovable()
-        wall:SetRestitution(0)
         wall2:EnablePhysics(true)
         wall2:SetUnmovable()
-        wall2:SetRestitution(0)
-
+wall3:EnablePhysics(true)
     end
+
     action CreateGame
-        EnablePhysics3D(true)
-        camera = GetCamera3D()
+        EnablePhysics2D(true)
+      //  camera = GetCamera2D()
         Maze()
-        clear:CustomColor(0,0,0,0.5)
-        cylinder:LoadBox(0.2,0.2,0.2,clear:Blue())
+        clear:CustomColor(1,1,1,0.5)
+        cylinder:LoadFilledRectangle(20,20,clear:Blue())
         cylinder:EnablePhysics(true)
-        //cylinder:SetRestitution(0)
         cylinder:SetResponsive()
-        cylinder:SetPosition(-30,5,-4)
+            cylinder:SetPosition(200,200)
         cylinder:SetName("person")
-        
         Add(cylinder)
-        // this line places our camera up and to the right of our box 
-        camera:SetPosition(-35, 0, -4) 
-        // this line tells our camera to look at the center of the 3D scene 
-        //camera:LookAt(0, 0, 0)  
-        DirectionalLight light 
-        light:SetDirection(-1, -4, 3) 
+
+        // this line places our camera up and to the right of our box
+//        camera:SetPosition(-35, 0, -4)
+        // this line tells our camera to look at the center of the 3D scene
+
+        //camera:LookAt(0, 0, 0) 
+        DirectionalLight light
+        light:SetDirection(-1, -4, 3)
         light:SetColor(0.8, 0.8, 0.8, 1)
         Add(light)
-        //these lines set the scene's ambient light 
-        AmbientLight ambient 
+
+        //these lines set the scene's ambient light
+        AmbientLight ambient
         ambient:SetColor(0.4, 0.4, 0.4, 1)
         SetAmbientLight(ambient)
-        
     end
 
     /*
         The update action is called on every "frame" of animation in a game. This
-        action should be used to do operations on items. So, for example, we 
-        might use this action to change frames of animation, to rotate items, 
+        action should be used to do operations on items. So, for example, we
+        might use this action to change frames of animation, to rotate items,
         or to make creatures jump.
     */
     action Update(number seconds)
-        camera:SetPosition(cylinder:GetPosition():GetX(), cylinder:GetPosition():GetY() + 1, cylinder:GetPosition():GetZ() - 2)
+        integer speed = 50
         //camera:SetPosition(cylinder:GetPosition())
         if monitor:IsKeyPressed(key:RIGHT)
-           cylinder:Move(10,0,0)
-           output "cr"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
-           Vector3 bab
-           bab = camera:GetPosition()
-           output bab:GetX() + ", " + bab:GetY() + ", " + bab:GetZ()
+            number oldX = cylinder:GetX()
+            number oldY = cylinder:GetY()
+           cylinder:SetPosition(oldX+speed*seconds,oldY)
+           
     //       ding:SetPosition(newx, cylinder:GetY(), cylinder:GetZ())
         end
 
         if monitor:IsKeyPressed(key:LEFT)
-           cylinder:Move(-10,0,0)
-           output "cl"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
-           Vector3 bab
-           bab = camera:GetPosition()
-           output bab:GetX() + ", " + bab:GetY() + ", " + bab:GetZ()
+            number oldX = cylinder:GetX()
+            number oldY = cylinder:GetY()
+           cylinder:SetPosition(oldX-speed*seconds,oldY)
+
+           
     //       ding:SetPosition(newx, cylinder:GetY(), cylinder:GetZ())
         end
 
         if monitor:IsKeyPressed(key:UP)
-           cylinder:Move(0,0,10)
-           output "cu"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
-           Vector3 bab
-           bab = camera:GetPosition()
-           output bab:GetX() + ", " + bab:GetY() + ", " + bab:GetZ()
+            number oldX = cylinder:GetX()
+            number oldY = cylinder:GetY()
+           cylinder:SetPosition(oldX,oldY+speed*seconds)
+
+           
         //       ding:SetPosition(cylinder:GetX(), cylinder:GetY(), newz)
         end
 
         if monitor:IsKeyPressed(key:DOWN)
-            cylinder:Move(0,0,-10)
-            camera:SetPosition(cylinder:GetPosition())
-            output "cd"+ cylinder:GetX() + ", " + cylinder:GetY() + ", " +cylinder:GetZ()
-            Vector3 bab
-            bab = camera:GetPosition()
-            output bab:GetX() + ", " + bab:GetY() + ", " + bab:GetZ()
+            number oldX = cylinder:GetX()
+           number oldY = cylinder:GetY()
+          cylinder:SetPosition(oldX,oldY-speed*seconds)
         //       ding:SetPosition(cylinder:GetX(), cylinder:GetY(), newz)
+
             end
         end
-
-    
 end
