@@ -77,12 +77,12 @@ class Main is Game, CollisionListener3D
         wall5:SetPosition(45,550)
         wall5:SetName("wall")
     
-    wall6:LoadFilledRectangle(20,200,clear:Black())
-        wall6:SetPosition(45,360)
+    wall6:LoadFilledRectangle(800,20,clear:Black())
+        wall6:SetPosition(0,599)
         wall6:SetName("wall")
 
-    wall7:LoadFilledRectangle(20,200,clear:Black())
-        wall7:SetPosition(45,360)
+    wall7:LoadFilledRectangle(20,600,clear:Black())
+        wall7:SetPosition(785,0)
         wall7:SetName("wall")
 
     wall9:LoadFilledRectangle(20,200,clear:Black())
@@ -90,8 +90,8 @@ class Main is Game, CollisionListener3D
         wall9:SetName("wall")
 
 
-    wall8:LoadFilledRectangle(20,200,clear:Black())
-        wall8:SetPosition(45,360)
+    wall8:LoadFilledRectangle(800,20,clear:Black())
+        wall8:SetPosition(0,0)
         wall8:SetName("wall")
 
     Add(wall)
@@ -148,7 +148,10 @@ wall3:EnablePhysics(true)
         might use this action to change frames of animation, to rotate items,
         or to make creatures jump.
     */
-    action Update(number seconds)
+action BeginCollision()
+    
+end    
+action Update(number seconds)
         integer speed = 50
         //camera:SetPosition(cylinder:GetPosition())
         if monitor:IsKeyPressed(key:RIGHT)
