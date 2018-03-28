@@ -85,10 +85,10 @@ class Main is Game, CollisionListener3D
         wall7:SetPosition(785,0)
         wall7:SetName("wall")
 
-    wall9:LoadFilledRectangle(20,200,clear:Black())
-        wall9:SetPosition(45,360)
+    wall9:LoadFilledRectangle(200,20,clear:Black())
+        wall9:SetPosition(275,550)
         wall9:SetName("wall")
-
+Add(wall9)
 
     wall8:LoadFilledRectangle(800,20,clear:Black())
         wall8:SetPosition(0,0)
