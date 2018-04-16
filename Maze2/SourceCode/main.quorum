@@ -43,8 +43,13 @@ class Main is Game, CollisionListener3D
     Drawable wall8
     Drawable wall9
     Drawable wall10
-
-    //Camera camera = undefined
+    Drawable wall11
+    Drawable wall12
+    Drawable wall13
+    Drawable wall14
+    Drawable wall15
+    Drawable wall16
+//Camera camera = undefined
 
     action Main
         StartGame()
@@ -84,15 +89,28 @@ class Main is Game, CollisionListener3D
     wall7:LoadFilledRectangle(20,600,clear:Black())
         wall7:SetPosition(785,0)
         wall7:SetName("wall")
+    wall8:LoadFilledRectangle(800,20,clear:Black())
+        wall8:SetPosition(0,0)
+        wall8:SetName("wall")
 
     wall9:LoadFilledRectangle(200,20,clear:Black())
         wall9:SetPosition(275,550)
         wall9:SetName("wall")
-Add(wall9)
 
-    wall8:LoadFilledRectangle(800,20,clear:Black())
-        wall8:SetPosition(0,0)
-        wall8:SetName("wall")
+    wall10:LoadFilledRectangle(200,20,clear:Black())
+        wall10:SetPosition(505,550)
+        wall10:SetName("wall")
+
+    wall11:LoadFilledRectangle(20,245,clear:Black())
+        wall11:SetPosition(705,325)
+        wall11:SetName("wall")
+
+    wall12:LoadFilledRectangle(20,245,clear:Black())
+        wall12:SetPosition(705,50)
+        wall12:SetName("wall")
+
+Add(wall9)
+Add(wall10)
 
     Add(wall)
         Add(wall2)
@@ -102,12 +120,18 @@ Add(wall5)
 Add(wall6)
 Add(wall7)
 Add(wall8)
+Add(wall11)
+Add(wall12)
+wall11:EnablePhysics(true)
 wall4:EnablePhysics(true)
 wall5:EnablePhysics(true)
         wall:EnablePhysics(true)
 wall6:EnablePhysics(true)
 wall7:EnablePhysics(true)
 wall8:EnablePhysics(true)
+
+wall10:EnablePhysics(true)
+wall9:EnablePhysics(true)
         wall:SetUnmovable()
         wall2:EnablePhysics(true)
         wall2:SetUnmovable()
