@@ -16,6 +16,7 @@ use Libraries.Interface.Events.CollisionEvent3D
 use Libraries.Game.Collision.Shapes.CollisionShape3D
 use Libraries.Interface.Events.CollisionListener3D
 use Libraries.Interface.Item3D
+use Libraries.Interface.Events.CollisionEvent2D
 
 /*
     This is a default class for creating a game in Quorum. Note that the Main
@@ -31,10 +32,10 @@ class Main is Game, CollisionListener3D
     */
     InputMonitor monitor
     KeyboardEvent key
-  Drawable cylinder
+    Drawable cylinder
     Color clear
-       Drawable wall
- Drawable wall2
+    Drawable wall
+    Drawable wall2
     Drawable wall3
     Drawable wall4
     Drawable wall5
@@ -49,6 +50,7 @@ class Main is Game, CollisionListener3D
     Drawable wall14
     Drawable wall15
     Drawable wall16
+    Audio smash
 //Camera camera = undefined
 
     action Main
@@ -109,44 +111,58 @@ class Main is Game, CollisionListener3D
         wall12:SetPosition(705,50)
         wall12:SetName("wall")
 
-Add(wall9)
-Add(wall10)
+    wall13:LoadFilledRectangle(200,20,clear:Black())
+        wall13:SetPosition(45,80)
+        wall13:SetName("wall")
+
+
 
     Add(wall)
-        Add(wall2)
-Add(wall3)
-Add(wall4)
-Add(wall5)
-Add(wall6)
-Add(wall7)
-Add(wall8)
-Add(wall11)
-Add(wall12)
-wall11:EnablePhysics(true)
-wall4:EnablePhysics(true)
-wall5:EnablePhysics(true)
-        wall:EnablePhysics(true)
-wall6:EnablePhysics(true)
-wall7:EnablePhysics(true)
-wall8:EnablePhysics(true)
+    Add(wall2)
+    Add(wall3)
+    Add(wall4)
+    Add(wall5)
+    Add(wall6)
+    Add(wall7)
+    Add(wall8)
+    Add(wall9)
+    Add(wall10)
+    Add(wall11)
+    Add(wall12)
+    Add(wall13)
 
-wall10:EnablePhysics(true)
-wall9:EnablePhysics(true)
-        wall:SetUnmovable()
-        wall2:EnablePhysics(true)
-        wall2:SetUnmovable()
-wall3:EnablePhysics(true)
+
+    wall:EnablePhysics(true)
+    wall2:EnablePhysics(true)
+    wall3:EnablePhysics(true)
+    wall4:EnablePhysics(true)
+    wall5:EnablePhysics(true)
+    wall6:EnablePhysics(true)
+    wall7:EnablePhysics(true)
+    wall8:EnablePhysics(true)
+    wall9:EnablePhysics(true)
+    wall10:EnablePhysics(true)
+    wall11:EnablePhysics(true)
+    wall12:EnablePhysics(true)
+    wall13:EnablePhysics(true)
+
+    wall:SetUnmovable()
+    wall2:SetUnmovable()
+
+
     end
 
     action CreateGame
         EnablePhysics2D(true)
       //  camera = GetCamera2D()
         Maze()
+        smash:Load("Ding2.wav")
+        smash:EnableLooping()
         clear:CustomColor(1,1,1,0.5)
         cylinder:LoadFilledRectangle(20,20,clear:Blue())
         cylinder:EnablePhysics(true)
         cylinder:SetResponsive()
-            cylinder:SetPosition(200,200)
+        cylinder:SetPosition(200,200)
         cylinder:SetName("person")
         Add(cylinder)
 
@@ -172,8 +188,17 @@ wall3:EnablePhysics(true)
         might use this action to change frames of animation, to rotate items,
         or to make creatures jump.
     */
-action BeginCollision()
-    
+action BeginCollision(CollisionEvent2D event)
+    Drawable ItemA = cast(Drawable, event:GetItemA())
+    Drawable ItemB = cast(Drawable, event:GetItemB())
+
+    if ItemA:GetName() = "wall" and ItemB:GetName() = "person"
+        number ppX = ItemB:GetX()
+        number ppY = ItemB:GetY()
+        smash:Play()
+        ItemB:SetPosition(ppX,ppY)
+
+    end
 end    
 action Update(number seconds)
         integer speed = 50
